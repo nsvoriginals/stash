@@ -2,10 +2,10 @@ export default function DocumentComponent() {
     const pdfUrl = "https://arxiv.org/pdf/2501.12948";
     
     return (
-      <div className="flex flex-col items-center justify-between p-6 w-full max-w-xs min-h-48 bg-white rounded-xl shadow-md border border-gray-200">
+      <div className="flex flex-col items-center justify-between p-6 w-full max-w-xs min-h-48 bg-[#343a40] rounded-xl shadow-md border border-gray-200">
         <div className="w-full text-center space-y-4">
-          <h1 className="text-2xl font-bold text-gray-800">Document</h1>
-          <h2 className="text-gray-600">
+          <h1 className="text-2xl font-bold white">Document</h1>
+          <h2 className="text-white">
             <span className="font-semibold">Description:</span> ML Research
           </h2>
           

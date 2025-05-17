@@ -15,15 +15,15 @@ export default function NoteComponent({
 
   return (
     <div 
-      className={`flex flex-col justify-between p-5 w-full max-w-xs min-h-[12rem] bg-white rounded-xl shadow-md border border-gray-200 transition-all duration-200 ${
+      className={`flex flex-col justify-between p-5 w-full max-w-xs min-h-[12rem] bg-[#343a40] rounded-xl shadow-md border border-gray-200 transition-all duration-200 ${
         isHovered ? 'shadow-lg' : 'shadow-md'
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="space-y-3">
-        <h1 className="text-xl font-bold text-gray-800 truncate">{title}</h1>
-        <div className="text-gray-600">
+        <h1 className="text-xl font-bold text-white truncate">{title}</h1>
+        <div className="text-white">
           <p className="whitespace-pre-wrap break-words">hello there in networking routing is a special concept where its easy to manipulate the apis endpoints like the best way to constiute</p>
         </div>
       </div>

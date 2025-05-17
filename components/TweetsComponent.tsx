@@ -15,7 +15,7 @@ export default function TweetsComponent() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-between p-6 w-full max-w-md bg-white rounded-xl shadow-md border border-gray-200">
+    <div className="flex flex-col items-center justify-between p-6 w-full max-w-md bg-[#343a40] rounded-xl shadow-md border border-gray-200">
       <div className="w-full space-y-4">
         
         <div className="twitter-tweet-container">
