@@ -20,7 +20,7 @@ export default function TweetsComponent() {
         
         <div className="twitter-tweet-container">
         <div className="dark">
-  <Tweet id="1923447037942485290" />
+  <Tweet id="1923640414999110103" />
 </div>
         </div>
       </div>

@@ -29,11 +29,11 @@ export default function Form() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Add your form submission logic here
+   
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen h-full w-full bg-gray-50 p-4">
+    <div className="flex items-center  justify-center min-h-screen h-full w-full bg-gray-50 p-4">
       <form 
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-white rounded-lg shadow-md p-6 space-y-6"
