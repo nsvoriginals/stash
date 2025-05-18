@@ -1,6 +1,18 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 
+// Input validation schema
+const bookmarkSchema = {
+  create: {
+    title: (value: string) => value.length >= 1 && value.length <= 255,
+    bookmarkLink: (value: string) => value.startsWith('http') || value.startsWith('/'),
+  },
+  update: {
+    id: (value: string) => !!value,
+    title: (value: string) => value.length >= 1 && value.length <= 255,
+    bookmarkLink: (value: string) => value.startsWith('http') || value.startsWith('/'),
+  }
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,14 +25,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const todos = await prisma.todo.findMany({
+    const bookmarks = await prisma.bookmark.findMany({
       where: { userId },
       orderBy: { id: 'desc' }
     });
 
-    return NextResponse.json(todos);
+    return NextResponse.json(bookmarks);
   } catch (error) {
-    console.error("GET todos error:", error);
+    console.error("GET bookmarks error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -39,33 +51,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { title, description, status }= await request.json();
+    const { title, description, bookmarkLink } = await request.json();
 
     // Basic validation
-    if (!title || !status) {
+    if (!title || !bookmarkLink) {
       return NextResponse.json(
-        { message: "Title and status are required" },
+        { message: "Title and bookmark link are required" },
         { status: 400 }
       );
     }
 
-    
+    if (!bookmarkSchema.create.title(title) || !bookmarkSchema.create.bookmarkLink(bookmarkLink)) {
+      return NextResponse.json(
+        { message: "Invalid input data" },
+        { status: 400 }
+      );
+    }
 
-    const todo = await prisma.todo.create({
+    const bookmark = await prisma.bookmark.create({
       data: {
         title,
         description: description || null,
-        status,
+        bookmarkLink,
         userId
       }
     });
 
     return NextResponse.json(
-      { message: "Todo created successfully", todo },
+      { message: "Bookmark created successfully", bookmark },
       { status: 201 }
     );
   } catch (error) {
-    console.error("POST todo error:", error);
+    console.error("POST bookmark error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -73,6 +90,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+ 
 export async function DELETE(request: NextRequest) {
   try {
     const userId = request.headers.get('X-User-Id');
@@ -88,33 +106,33 @@ export async function DELETE(request: NextRequest) {
 
     if (!id) {
       return NextResponse.json(
-        { message: "Todo ID is required" },
+        { message: "Bookmark ID is required" },
         { status: 400 }
       );
     }
 
-    
-    const existingTodo = await prisma.todo.findUnique({
+    // Check if bookmark exists and belongs to user
+    const existingBookmark = await prisma.bookmark.findUnique({
       where: { id }
     });
 
-    if (!existingTodo || existingTodo.userId !== userId) {
+    if (!existingBookmark || existingBookmark.userId !== userId) {
       return NextResponse.json(
-        { message: "Todo not found or unauthorized" },
+        { message: "Bookmark not found or unauthorized" },
         { status: 404 }
       );
     }
 
-    await prisma.todo.delete({
+    await prisma.bookmark.delete({
       where: { id }
     });
 
     return NextResponse.json(
-      { message: "Todo deleted successfully" },
+      { message: "Bookmark deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("DELETE todo error:", error);
+    console.error("DELETE bookmark error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
