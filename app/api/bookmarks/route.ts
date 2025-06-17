@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import prisma from "@/lib/prisma";
-
-// Input validation schema
+import prisma from "../../../lib/prisma";
 const bookmarkSchema = {
   create: {
     title: (value: string) => value.length >= 1 && value.length <= 255,

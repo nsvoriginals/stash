@@ -58,7 +58,6 @@ export default function BookmarkComponent({
           </h2>
         )}
         
-        {/* Action buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-3">
           <a 
             href={url} 

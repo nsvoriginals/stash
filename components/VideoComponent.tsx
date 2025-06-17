@@ -53,11 +53,11 @@ export default function VideoComponent({
         throw new Error('Failed to delete video');
       }
 
-      // Call onDelete callback if provided
+     
       if (onDelete) {
         onDelete(id);
       } else {
-        // Default behavior: refresh the page
+      
         router.refresh();
       }
     } catch (error) {

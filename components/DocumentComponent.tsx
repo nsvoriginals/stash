@@ -58,7 +58,7 @@ export default function DocumentComponent({
           </h2>
         )}
         
-        {/* PDF Viewer with iframe */}
+
         <div className="w-full h-64 border border-gray-300 rounded-lg overflow-hidden">
           <iframe
             src={`https://docs.google.com/gview?url=${url}&embedded=true`}
@@ -72,7 +72,7 @@ export default function DocumentComponent({
           </iframe>
         </div>
 
-        {/* PDF action buttons */}
+        
         <div className="flex flex-col sm:flex-row justify-center gap-3">
           <a 
             href={url} 

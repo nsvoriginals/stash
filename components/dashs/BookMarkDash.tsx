@@ -61,7 +61,6 @@ export default function BookmarkDash() {
         throw new Error('Failed to delete bookmark');
       }
 
-      // Optimistically remove the bookmark from UI
       setBookmarks(bookmarks.filter(bookmark => bookmark.id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete bookmark');

@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 
-// Input validation schema
+
 const documentSchema = {
   create: {
     title: (value: string) => value.length >= 1 && value.length <= 255,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     const { title, description, docLink } = await request.json();
 
-    // Basic validation
+    
     if (!title || !docLink) {
       return NextResponse.json(
         { message: "Title and document link are required" },
@@ -103,7 +103,7 @@ export async function PUT(request: NextRequest) {
 
     const { id, title, description, docLink } = await request.json();
 
-    // Basic validation
+    
     if (!id || !title || !docLink) {
       return NextResponse.json(
         { message: "ID, title and document link are required" },
@@ -118,7 +118,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Check if document exists and belongs to user
+    
     const existingDocument = await prisma.document.findUnique({
       where: { id }
     });
@@ -173,7 +173,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Check if document exists and belongs to user
+    
     const existingDocument = await prisma.document.findUnique({
       where: { id }
     });

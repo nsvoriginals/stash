@@ -59,13 +59,13 @@ export default function Dashboard() {
 
       {showForm && (
          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-         {/* Backdrop */}
+        
          <div 
            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
            onClick={() => setShowForm(false)}
          />
          
-         {/* Modal Container */}
+         
          <div className="relative bg-white rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col z-50">
            
            <button 

@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 
-// Input validation schema
+
 const imageSchema = {
   create: {
     title: (value: string) => value.length >= 1 && value.length <= 255,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     const { title, description, imgLink } = await request.json();
 
-    // Basic validation
+    
     if (!title || !imgLink) {
       return NextResponse.json(
         { message: "Title and image link are required" },
@@ -103,7 +103,7 @@ export async function PUT(request: NextRequest) {
 
     const { id, title, description, imgLink } = await request.json();
 
-    // Basic validation
+    
     if (!id || !title || !imgLink) {
       return NextResponse.json(
         { message: "ID, title and image link are required" },
@@ -118,7 +118,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Check if image exists and belongs to user
+    
     const existingImage = await prisma.image.findUnique({
       where: { id }
     });
@@ -173,7 +173,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Check if image exists and belongs to user
+    
     const existingImage = await prisma.image.findUnique({
       where: { id }
     });

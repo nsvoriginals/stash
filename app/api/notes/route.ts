@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 
-// Input validation schema
+
 const noteSchema = {
   create: {
     title: (value: string) => value.length >= 1 && value.length <= 255,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     const { title, content } = await request.json();
 
-    // Basic validation
+    
     if (!title || !content) {
       return NextResponse.json(
         { message: "Title and content are required" },

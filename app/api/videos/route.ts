@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     const videoId = match[1];
     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
-    // Check if video already exists for this user
+    
     const existingVideo = await prisma.video.findFirst({
       where: {
         vidLink: embedUrl,
@@ -133,7 +133,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Check if video exists and belongs to user
+
     const existingVideo = await prisma.video.findUnique({
       where: { id }
     });

@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
 
     const { title, description, status }= await request.json();
 
-    // Basic validation
     if (!title || !status) {
       return NextResponse.json(
         { message: "Title and status are required" },

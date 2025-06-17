@@ -18,7 +18,6 @@ export default function TweetComponent({
   const router = useRouter();
 
   useEffect(() => {
-    // Load Twitter widget script
     const script = document.createElement('script');
     script.src = "https://platform.twitter.com/widgets.js";
     script.async = true;

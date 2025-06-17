@@ -3,25 +3,24 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-// Simple token generation function
+
 function generateToken(userId: string, email: string) {
-  // Create a payload with user data and expiration
   const payload = {
     userId,
     email,
-    exp: Math.floor(Date.now() / 1000) + (6 * 60 * 60) // 6 hours
+    exp: Math.floor(Date.now() / 1000) + (6 * 60 * 60) 
   };
   
-  // Convert payload to string and encrypt
-  const data = JSON.stringify(payload);
-  const secret = 'hellot'; // Keep the same secret
   
-  // Create HMAC
+  const data = JSON.stringify(payload);
+  const secret = 'hellot'; 
+  
+  
   const hmac = crypto.createHmac('sha256', secret);
   hmac.update(data);
   const signature = hmac.digest('hex');
   
-  // Create simple token by combining the base64 encoded payload and signature
+  
   const encodedPayload = Buffer.from(data).toString('base64');
   return encodedPayload + '_' + signature;
 }
@@ -48,7 +47,7 @@ export async function POST(request: Request) {
       );
     }
     
-    // Generate simple token
+    
     const token = generateToken(user.id, user.email);
     
     return NextResponse.json({

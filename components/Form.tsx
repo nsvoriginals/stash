@@ -35,7 +35,6 @@ export default function Form({ onClose }: FormProps) {
   const categories = ['Article', 'Video', 'Tutorial', 'Documentation', 'Tool'];
 
   useEffect(() => {
-    // Reset form when content type changes
     setFormData({
       title: '',
       description: '',
@@ -80,7 +79,6 @@ export default function Form({ onClose }: FormProps) {
     try {
       let payload: any = { title: formData.title };
       
-      // Add fields specific to each content type
       switch (contentType) {
         case 'todo':
           payload = { ...payload, description: formData.description, status: formData.status };
@@ -121,7 +119,7 @@ export default function Form({ onClose }: FormProps) {
       const data = await response.json();
       console.log('Created successfully:', data);
       onClose();
-      router.refresh(); // Refresh the page to show new item
+      router.refresh();
     } catch (error) {
       console.error('Error creating item:', error);
       alert('Failed to create item. Please try again.');
@@ -261,7 +259,6 @@ export default function Form({ onClose }: FormProps) {
     >
       <h2 className="text-2xl font-bold text-gray-800">Add New {contentType.charAt(0).toUpperCase() + contentType.slice(1)}</h2>
       
-      {/* Content Type Selection */}
       <div className="space-y-2">
         <p className="block text-sm font-medium text-gray-700">Content Type *</p>
         <div className="flex flex-wrap gap-2">
@@ -282,7 +279,7 @@ export default function Form({ onClose }: FormProps) {
         </div>
       </div>
       
-      {/* Title Field (common to all content types) */}
+     
       <div className="space-y-2">
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
           Title *
@@ -299,10 +296,10 @@ export default function Form({ onClose }: FormProps) {
         />
       </div>
       
-      {/* Content-specific fields */}
+     
       {renderContentSpecificFields()}
       
-      {/* Form Actions */}
+    
       <div className="flex justify-end gap-3 pt-4">
         <button
           type="button"

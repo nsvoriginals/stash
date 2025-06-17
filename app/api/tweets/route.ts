@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 // Regex to extract tweet ID from various Twitter URL formats
 const TWEET_ID_REGEX = /(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/i;
 
-// Input validation schema
+
 const tweetSchema = {
   create: {
     title: (value: string) => value.length >= 1 && value.length <= 255,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     const { title, description, tweetUrl } = await request.json();
 
-    // Basic validation
+   
     if (!title || !tweetUrl) {
       return NextResponse.json(
         { message: "Title and tweet URL are required" },
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Extract tweet ID from URL
+ 
     const match = tweetUrl.match(TWEET_ID_REGEX);
     if (!match || !match[1]) {
       return NextResponse.json(
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     }
     const tweetId = match[1];
 
-    // Check if tweet already exists for this user
+  
     const existingTweet = await prisma.tweet.findFirst({
       where: {
         tweetId,
@@ -132,7 +132,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Check if tweet exists and belongs to user
+
     const existingTweet = await prisma.tweet.findUnique({
       where: { id }
     });
