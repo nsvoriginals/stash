@@ -5,7 +5,7 @@
 @font-face {
   font-family: Tensor;
   font-display: swap;
-  src: url('../public/fonts/Tensor2.woff2')format('woff2');
+  src: url('../public/fonts/Tensor.woff2')format('woff2');
 }
 
 :root {

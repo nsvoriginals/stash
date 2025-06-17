@@ -1,6 +1,15 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
+// Regex to extract tweet ID from various Twitter URL formats
+const TWEET_ID_REGEX = /(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)/i;
 
+
+const tweetSchema = {
+  create: {
+    title: (value: string) => value.length >= 1 && value.length <= 255,
+    tweetUrl: (value: string) => TWEET_ID_REGEX.test(value),
+  },
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,14 +22,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const todos = await prisma.todo.findMany({
+    const tweets = await prisma.tweet.findMany({
       where: { userId },
       orderBy: { id: 'desc' }
     });
 
-    return NextResponse.json(todos);
+    return NextResponse.json(tweets);
   } catch (error) {
-    console.error("GET todos error:", error);
+    console.error("GET tweets error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -39,32 +48,63 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { title, description, status }= await request.json();
+    const { title, description, tweetUrl } = await request.json();
 
-    if (!title || !status) {
+   
+    if (!title || !tweetUrl) {
       return NextResponse.json(
-        { message: "Title and status are required" },
+        { message: "Title and tweet URL are required" },
         { status: 400 }
       );
     }
 
-    
+    if (!tweetSchema.create.title(title) || !tweetSchema.create.tweetUrl(tweetUrl)) {
+      return NextResponse.json(
+        { message: "Invalid input data" },
+        { status: 400 }
+      );
+    }
 
-    const todo = await prisma.todo.create({
+ 
+    const match = tweetUrl.match(TWEET_ID_REGEX);
+    if (!match || !match[1]) {
+      return NextResponse.json(
+        { message: "Invalid Twitter URL format" },
+        { status: 400 }
+      );
+    }
+    const tweetId = match[1];
+
+  
+    const existingTweet = await prisma.tweet.findFirst({
+      where: {
+        tweetId,
+        userId
+      }
+    });
+
+    if (existingTweet) {
+      return NextResponse.json(
+        { message: "This tweet is already saved" },
+        { status: 409 }
+      );
+    }
+
+    const tweet = await prisma.tweet.create({
       data: {
         title,
         description: description || null,
-        status,
+        tweetId,
         userId
       }
     });
 
     return NextResponse.json(
-      { message: "Todo created successfully", todo },
+      { message: "Tweet saved successfully", tweet },
       { status: 201 }
     );
   } catch (error) {
-    console.error("POST todo error:", error);
+    console.error("POST tweet error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -87,33 +127,33 @@ export async function DELETE(request: NextRequest) {
 
     if (!id) {
       return NextResponse.json(
-        { message: "Todo ID is required" },
+        { message: "Tweet ID is required" },
         { status: 400 }
       );
     }
 
-    
-    const existingTodo = await prisma.todo.findUnique({
+
+    const existingTweet = await prisma.tweet.findUnique({
       where: { id }
     });
 
-    if (!existingTodo || existingTodo.userId !== userId) {
+    if (!existingTweet || existingTweet.userId !== userId) {
       return NextResponse.json(
-        { message: "Todo not found or unauthorized" },
+        { message: "Tweet not found or unauthorized" },
         { status: 404 }
       );
     }
 
-    await prisma.todo.delete({
+    await prisma.tweet.delete({
       where: { id }
     });
 
     return NextResponse.json(
-      { message: "Todo deleted successfully" },
+      { message: "Tweet deleted successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("DELETE todo error:", error);
+    console.error("DELETE tweet error:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
