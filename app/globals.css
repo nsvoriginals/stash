@@ -1,7 +1,6 @@
-@import "tailwindcss";
-
-
-
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
 @font-face {
   font-family: Tensor;
   font-display: swap;

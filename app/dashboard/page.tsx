@@ -10,6 +10,7 @@ import DocumentDash from '@/components/dashs/DocumentDash';
 import VideoDash from '@/components/dashs/VideosDash';
 import NoteDash from '@/components/dashs/NoteDash';
 import TweetsDash from '@/components/dashs/TweetsDash';
+import TodoDash from '../../components/dashs/TodoDash';
 
 export default function Dashboard() {
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +19,7 @@ export default function Dashboard() {
   const renderActiveTab = () => {
     switch (activeTab) {
       case 'Todos':
-        return <TodoComponent />;
+        return <TodoDash />;
       case 'Tweets':
         return <TweetsDash />;
       case 'Notes':
@@ -34,7 +35,7 @@ export default function Dashboard() {
       case 'Settings':
         return <div>Settings Component</div>;
       default:
-        return <TodoComponent />;
+        return <TodoDash />;
     }
   };
 
